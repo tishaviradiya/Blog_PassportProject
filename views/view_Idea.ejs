@@ -1,0 +1,85 @@
+
+<%- include('header')%>
+<!-- MAIN CONTENT-->
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <% if(locals.flash.success.length>0 && locals.flash.success){%>
+                        <div class="alert alert-success">
+                            <%= locals.flash.success%>
+                        </div>
+                    <% }%>
+                    
+                    <form>
+                        <input type="text" name="search" value="<%= search%>">
+                        <input type="submit" name="searching" class="btn btn-primary">
+                    </form>
+                   
+                    <form action="/admin/Idea/multipleDeletsRecord" method="post">
+                        <div class="table-responsive table--no-card m-b-30">
+                            <table class="table table-borderless table-striped table-earning">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox"  id="checkAll">
+                                            <button type="submit"><i class="fa fa-trash" style="color: aliceblue;"></i></button></th>
+                                        <th>No</th>
+                                        <th>Title</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% var no=1; for(var add of findData){%>
+                                    <tr>
+                                        <td><input type="checkbox" name="idea_id" value="<%= add.id%>"></td>
+                                        <td><%= no++%></td>
+                                        <td><%= add.title%></td>
+                                        <td><%= add.name%></td>
+                                        <td><%= add.description%></td>
+                                        <% if(add.status){%>
+                                            <td><a href="/admin/Idea/deactive/<%= add.id%>">Active</a></td>
+                                        <% }else{%>
+                                            <td><a href="/admin/Idea/active/<%= add.id%>">Deactive</a></td>
+                                        <% }%>
+                                        <td><a href="/admin/Idea/deleteAdmin/<%= add.id%>"><i class="fa fa-trash"></i></a>||
+                                            <a href="/admin/Idea/editRecord/?id=<%= add.id%>"><i class="fa fa-edit"></i></a></td>
+                                        <td></td>
+                                    </tr>
+                                   <% }%>
+                                </tbody>
+                                <tr>
+                                    <td colspan="9">
+                                        
+                                        <% for(var i=0; i<totalPage;){%>
+                                            <a href="/admin/Idea/view_Idea/?page=<%= i%>&search=<%= search%>" class="btn btn-info"><%= ++i%></a>
+                                        <% }%>
+                                
+                                    </td>
+                                </tr>
+                                <!-- prev & next -->
+                                <tr style="text-align: center;">
+                                    <td colspan="9">
+                                        <% if(currentPage!=0){%>
+                                            <a href="/admin/Idea/view_Idea/?page=<%= currentPage-1%>&search=<%= search%>" class="btn btn-success">Prev</a>
+                                            <% }%>
+                                            <a href="/admin/Idea/view_Idea/?page=<%= parseInt(currentPage)+1%>&search=<%= search%>" class="btn btn-success"><%= parseInt(currentPage)+1%></a>
+                                            <% var next=parseInt(currentPage)+1;if(next!=totalPage){%>
+                                                <a href="/admin/Idea/view_Idea/?page=<%= next%>&search=<%= search%>" class="btn btn-success">Next</a>
+                                                <% }%>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <%- include('footer')%>
+            <script>
+                     $('#checkAll').click(function () {    
+     $('input:checkbox').prop('checked', this.checked);    
+ });
+            </script>

@@ -1,0 +1,85 @@
+
+<%- include('header')%>
+<!-- MAIN CONTENT-->
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <% if(locals.flash.success.length>0 && locals.flash.success){%>
+                        <div class="alert alert-success">
+                            <%= locals.flash.success%>
+                        </div>
+                        <% }%>
+                        <form>
+                            <input type="text" name="search" value="<%= search%>">
+                            <input type="submit" name="searching" class="btn btn-success">
+                        </form>
+                   <form action="/admin/posts/multipleDeleteRecords" method="post">
+                    <div class="table-responsive table--no-card m-b-30">
+                        <table class="table table-borderless table-striped table-earning">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="checkAll">
+                                        <button type="submit"><i class="fa fa-trash" style="color: white;"></i></button>
+                                    </th>
+                                    <th>No</th>
+                                    <th>Category</th>
+                                    <th>Title</th>
+                                    <th>Link</th>
+                                    <th>Description</th>
+                                    <th>Image</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% var no=currentPage*per_page; for(var add of findData){%>
+                                <tr>
+                                    <th><input type="checkbox" name="postsId" value="<%= add.id%>"></th>
+                                    <td><%= ++no%></td>
+                                    <td><%= add.category%></td>
+                                    <td><%= add.title%></td>
+                                    <td><%= add.link%></td>
+                                    <td><%= add.description%></td>
+                                    <td><img src="<%= add.postsImage%>" alt="image" width="200" height="200"></td>
+                                    <% if(add.status){%>
+                                    <td><a href="/admin/posts/deactive/<%= add.id%>">Active</a></td>
+                                    <% }else{%>
+                                    <td><a href="/admin/posts/active/<%= add.id%>">Deactive</a></td>
+                                    <% }%>
+                                    <td><a href="/admin/posts/deleteAdmin/<%= add.id%>"><i class="fa fa-trash"></i></a>||
+                                        <a href="/admin/posts/editRecord/?id=<%= add.id%>"><i class="fa fa-edit"></i></a></td>
+                                    <td></td>
+                                </tr>
+                               <% }%>
+                            </tbody>
+                            <tr style="text-align: center;">
+                                <td colspan="9">
+                                    <% for(var i=0;i<totalRecord;){%>
+                                            <a href="/admin/posts/view_posts/?page=<%= i%>&search=<%= search%>" class="btn btn-primary"><%= ++i%></a>
+                                        <% }%>
+                                </td>
+                            </tr>
+                            <tr style="text-align: center;">
+                                <td colspan="9">
+                                    <% if(currentPage!=0){%>
+                                        <a href="/admin/posts/view_posts/?page=<%= currentPage-1%>&search=<%= search%>" class="btn btn-success">Prev</a>
+                                    <% }%>
+                                        <a href="/admin/posts/view_posts/?page=<%= parseInt(currentPage)+1%>&search=<%= search%>" class="btn btn-success"><%= parseInt(currentPage)+1%></a>
+                                    <%  var next=parseInt(currentPage)+1; if(next!=totalRecord){%>    
+                                        <a href="/admin/posts/view_posts/?page=<%= next%>&search=<%= search%>" class="btn btn-success">Next</a>
+                                    <% }%>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                   </form>
+                </div>
+            </div>
+            <%- include('footer')%>
+            <script>
+                     $('#checkAll').click(function () {    
+     $('input:checkbox').prop('checked', this.checked);    
+ });
+            </script>

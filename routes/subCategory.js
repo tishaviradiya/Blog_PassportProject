@@ -1,0 +1,14 @@
+const express=require('express');
+const routs=express.Router();
+const subCategoryController=require('../controllers/subCategoryController');
+const subCategory=require('../models/subCategoryModel');
+routs.get('/add_subCategory',subCategoryController.add_subCategory);
+routs.post('/insertsubCategoryData',subCategory.uploadImages,subCategoryController.insertsubCategoryData);
+routs.get('/view_subCategory',subCategoryController.view_subCategory);
+routs.get('/deleteAdmin/:id',subCategoryController.deleteAdmin);
+routs.get('/editRecord',subCategoryController.editRecord);
+routs.post('/deleteMultipleRecords',subCategoryController.deleteMultipleRecords);
+routs.post('/editsubCategoryData/:id',subCategory.uploadImages,subCategoryController.editsubCategoryData);
+routs.get('/deactive/:id',subCategoryController.deactive);
+routs.get('/active/:id',subCategoryController.active);
+module.exports=routs;

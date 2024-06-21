@@ -1,0 +1,14 @@
+const express=require('express');
+const routs=express.Router();
+const aboutController=require('../controllers/aboutCtrl');
+const About=require('../models/aboutModel');
+routs.get('/add_about',aboutController.add_about);
+routs.post('/addAboutData',About.uploadImages,aboutController.addAboutData);
+routs.get('/view_about',aboutController.view_about);
+routs.get('/deleteAdmin/:id',aboutController.deleteAdmin);
+routs.get('/editRecord',aboutController.editRecord);
+routs.post('/editAboutData/:id',aboutController.editAboutData);
+routs.get('/deactive/:id',aboutController.deactive);
+routs.get('/active/:id',aboutController.active);
+routs.post('/deleteMultipleRecords',aboutController.deleteMultipleRecords);
+module.exports=routs;
